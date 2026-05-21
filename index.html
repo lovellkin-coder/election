@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>김상겸 시의원 후보 선거운동</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --accent: #8b1a2e; --accent-mid: #c0394f; --accent-border: #f0c4cc; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: #f5f4f4; color: #1a1a1a; font-size: 15px; min-height: 100vh; }
+
+  .top-sticky { position: sticky; top: 0; z-index: 100; background: #f5f4f4; }
+  .top-bar { max-width: 860px; margin: 0 auto; padding: 18px 16px 14px; }
+  .top-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+  .top-title .emoji { margin-right: 6px; }
+  .top-title span { color: var(--accent); }
+
+  .tab-bar { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1.5px solid #1a1a1a; background: #f5f4f4; }
+  .tab-btn { font-size: 12px; font-weight: 700; font-family: 'Noto Sans KR', sans-serif; padding: 11px 4px; background: none; border: none; border-bottom: 3px solid transparent; margin-bottom: -1.5px; color: #999; cursor: pointer; transition: color 0.15s, border-color 0.15s; white-space: nowrap; text-align: center; width: 100%; }
+  .tab-btn.active { color: #1a1a1a; border-bottom-color: var(--accent); }
+  .tab-btn:hover:not(.active) { color: #444; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 20px 16px 40px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .section-title { font-size: 15px; font-weight: 700; color: #1a1a1a; margin: 24px 0 10px; display: flex; align-items: center; gap: 8px; }
+  .section-title:first-of-type { margin-top: 0; }
+  .section-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+
+  .card { background: #fff; border: 1.5px solid #e4e0e0; border-radius: 10px; padding: 1px; margin-bottom: 20px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: #f8f6f6; color: #555; font-weight: 700; padding: 10px 12px; text-align: center; border-bottom: 1.5px solid #e4e0e0; font-size: 13px; white-space: nowrap; }
+  td { padding: 10px 12px; border-bottom: 1px solid #eeecec; color: #1a1a1a; vertical-align: middle; line-height: 1.5; }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: #fdf8f8; }
+
+  .badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 5px; white-space: nowrap; flex-shrink: 0; }
+  .b1 { background: #dbeeff; color: #0a4d8c; }
+  .b2 { background: #d4f0e4; color: #0b5c38; }
+  .b3 { background: #fef2d6; color: #6b4000; }
+  .b4 { background: #fde8f0; color: #7a1d42; }
+
+  .note { font-size: 12px; color: #888; padding: 8px 12px 10px; }
+  .time-blue { color: #1a5ca8; font-weight: 500; }
+  .time-muted { color: #888; }
+  .total-time { font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .nowrap { white-space: nowrap; }
+  .text-right { text-align: right; }
+  .text-center { text-align: center; }
+  .team-inline { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+
+  /* 전화하기 버튼 */
+  .tel-btn { display: inline-block; font-size: 12px; font-weight: 700; font-family: 'Noto Sans KR', sans-serif; padding: 4px 10px; background: #fff; color: var(--accent); border: 1.5px solid var(--accent); border-radius: 5px; text-decoration: none; white-space: nowrap; transition: background 0.15s, color 0.15s; }
+  .tel-btn:hover { background: var(--accent); color: #fff; }
+
+  /* 인증샷 체크 */
+  .stat-row { display: flex; gap: 8px; margin-bottom: 16px; }
+  .stat-card { flex: 1; background: #fff; border: 1.5px solid #e4e0e0; border-radius: 10px; padding: 14px 8px; text-align: center; }
+  .stat-card .num { font-size: 22px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.5px; }
+  .stat-card .lbl { font-size: 11px; color: #888; margin-top: 3px; }
+  .check-card { background: #fff; border: 1.5px solid #e4e0e0; border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+  .check-card-inner { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .ck-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 300px; }
+  .ck-table th { font-size: 13px; padding: 10px 10px; text-align: center; background: #f8f6f6; border-bottom: 1.5px solid #e4e0e0; color: #555; white-space: nowrap; font-weight: 700; }
+  .ck-table td { padding: 9px 10px; border-bottom: 1px solid #eeecec; text-align: center; vertical-align: middle; }
+  .ck-table tr:last-child td { border-bottom: none; }
+  .ck-table td.date-cell { font-size: 13px; font-weight: 700; color: #555; text-align: center; white-space: nowrap; background: #faf8f8; }
+  .ck-table td.date-cell.sun { color: #c0392b; }
+  .ck-table td.team-cell { text-align: left; padding-left: 10px; white-space: nowrap; }
+  .team-inner { display: flex; align-items: center; gap: 7px; }
+  .team-names { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+  .ck-table input[type=checkbox] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); }
+  .prog-wrap { height: 6px; background: #f0ecec; border-radius: 4px; margin: 12px 12px 5px; }
+  .prog-bar { height: 6px; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
+  .prog-text { font-size: 12px; color: #888; text-align: right; padding: 0 12px 10px; }
+
+  /* 일지 */
+  .diary-list { display: flex; flex-direction: column; gap: 10px; }
+  .diary-item { background: #fff; border: 1.5px solid #e4e0e0; border-radius: 10px; padding: 12px 14px; }
+  .diary-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .diary-date-label { font-size: 13px; font-weight: 700; color: #555; }
+  .diary-date-label.sun { color: #c0392b; }
+  .diary-save-btn { font-family: 'Noto Sans KR', sans-serif; font-size: 12px; font-weight: 700; padding: 4px 14px; background: var(--accent); color: #fff; border: none; border-radius: 5px; cursor: pointer; flex-shrink: 0; transition: background 0.15s; }
+  .diary-save-btn:hover { background: var(--accent-mid); }
+  .diary-textarea { width: 100%; font-family: 'Noto Sans KR', sans-serif; font-size: 12px; color: #1a1a1a; background: #fdf8f8; border: 1px solid var(--accent-border); border-radius: 7px; padding: 9px 10px; resize: none; overflow: hidden; outline: none; line-height: 1.7; transition: border-color 0.15s, background 0.15s; display: block; box-sizing: border-box; min-height: calc(12px * 1.7 * 2 + 18px); }
+  .diary-textarea:focus { border-color: var(--accent-mid); background: #fff; }
+  .diary-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+  .diary-saved-msg { font-size: 12px; color: var(--accent); opacity: 0; transition: opacity 0.3s; }
+  .diary-saved-msg.show { opacity: 1; }
+
+
+  /* 할일 탭 */
+  .todo-add-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .todo-add-input { flex: 1; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; padding: 9px 12px; border: 1.5px solid #e4e0e0; border-radius: 8px; background: #fff; outline: none; color: #1a1a1a; transition: border-color 0.15s; }
+  .todo-add-input:focus { border-color: var(--accent); }
+  .todo-add-btn { font-family: 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 700; padding: 9px 16px; background: var(--accent); color: #fff; border: none; border-radius: 8px; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: background 0.15s; }
+  .todo-add-btn:hover { background: var(--accent-mid); }
+  .todo-list { display: flex; flex-direction: column; gap: 8px; }
+  .todo-item { background: #fff; border: 1.5px solid #e4e0e0; border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; }
+  .todo-item.done { background: #faf8f8; border-color: #eeecec; }
+  .todo-date { font-size: 12px; font-weight: 700; color: #aaa; white-space: nowrap; flex-shrink: 0; min-width: 36px; }
+  .todo-item.done .todo-date { color: #ccc; }
+  .todo-cb { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
+  .todo-text { font-size: 14px; color: #1a1a1a; flex: 1; line-height: 1.5; }
+  .todo-item.done .todo-text { color: #bbb; }
+  .todo-del { font-size: 13px; color: #ccc; background: none; border: none; cursor: pointer; padding: 2px 6px; flex-shrink: 0; transition: color 0.15s; }
+  .todo-del:hover { color: var(--accent); }
+  .todo-empty { font-size: 13px; color: #bbb; text-align: center; padding: 28px 0; }
+
+  /* 파일 탭 */
+  .file-list { display: flex; flex-direction: column; gap: 14px; }
+  .file-card { background: #fff; border: 1.5px solid #e4e0e0; border-radius: 12px; padding: 18px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .file-card-info { display: flex; align-items: flex-start; gap: 12px; flex: 1; min-width: 0; }
+  .file-icon { font-size: 28px; flex-shrink: 0; line-height: 1; }
+  .file-meta { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .file-name { font-size: 15px; font-weight: 700; color: #1a1a1a; }
+  .file-desc { font-size: 12px; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .file-pw { display: inline-block; margin-top: 4px; font-size: 12px; font-weight: 700; color: var(--accent); background: #fdf0f2; border: 1px solid var(--accent-border); border-radius: 5px; padding: 2px 8px; }
+  .file-dl-btn { flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; font-family: 'Noto Sans KR', sans-serif; padding: 4px 10px; background: #fff; color: var(--accent); border: 1.5px solid var(--accent); border-radius: 5px; cursor: pointer; text-decoration: none; transition: background 0.15s, color 0.15s; white-space: nowrap; }
+  .file-dl-btn:hover { background: var(--accent); color: #fff; }
+  .file-note { font-size: 12px; color: #aaa; margin-top: 10px; text-align: left; }
+
+  .fb-status { font-size: 12px; color: #aaa; text-align: right; padding: 5px 0 0; min-height: 18px; }
+  .fb-status.ok { color: #2a7a4f; }
+  .fb-status.err { color: #c0392b; }
+</style>
+</head>
+<body>
+
+<div class="top-sticky">
+  <div class="top-bar">
+    <div class="top-title"><span class="emoji">🌟</span>김상겸 광명시의원 후보 <span>선거운동</span></div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('info', this)">📋 일정·조편성</button>
+    <button class="tab-btn" onclick="switchTab('check', this)">✅ 인증샷체크</button>
+    <button class="tab-btn" onclick="switchTab('diary', this)">📝 운동일지</button>
+    <button class="tab-btn" onclick="switchTab('todo', this)">📌 할일</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 탭1: 일정·조편성 -->
+  <div id="tab-info" class="tab-panel active">
+
+    <div class="section-title"><span class="section-dot"></span> 기본 일정 (5/21 ~ 6/2, 13일간)</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>시간</th><th>일정</th><th>운동시간</th></tr></thead>
+        <tbody>
+          <tr><td class="nowrap">7:30~9:00</td><td class="time-blue">오전 출근인사</td><td class="nowrap">1시간 30분</td></tr>
+          <tr><td class="nowrap">9:00~10:00</td><td class="time-muted">휴식</td><td>—</td></tr>
+          <tr><td class="nowrap">10:00~12:00</td><td>도보 지역순회 및 유세차량 연설</td><td class="nowrap">2시간</td></tr>
+          <tr><td class="nowrap">12:00~14:00</td><td class="time-muted">점심시간</td><td>—</td></tr>
+          <tr><td class="nowrap">14:00~16:00</td><td>도보 지역순회 및 유세차량 연설</td><td class="nowrap">2시간</td></tr>
+          <tr><td class="nowrap">16:00~17:00</td><td class="time-muted">휴식</td><td>—</td></tr>
+          <tr><td class="nowrap">17:00~18:00</td><td>도보 지역순회 및 유세차량 연설</td><td class="nowrap">2시간</td></tr>
+          <tr><td class="nowrap">18:00~19:00</td><td class="time-blue">오후 퇴근인사</td><td>—</td></tr>
+          <tr><td colspan="2"></td><td class="total-time text-right">총 7시간 30분</td></tr>
+        </tbody>
+      </table>
+      <div class="note">* 별도 행사/활동 있을 시 시간 조정</div>
+    </div>
+
+    <div class="section-title"><span class="section-dot"></span> 조편성</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>조</th><th>조원</th><th>배치인원</th></tr></thead>
+        <tbody>
+          <tr><td class="text-center"><span class="badge b1">1조</span></td><td>최윤정, 김미화</td><td class="text-center">2명</td></tr>
+          <tr><td class="text-center"><span class="badge b2">2조</span></td><td>허순이, 강희자</td><td class="text-center">2명</td></tr>
+          <tr><td class="text-center"><span class="badge b3">3조</span></td><td>박옥주, 송태란</td><td class="text-center">2명</td></tr>
+          <tr><td class="text-center"><span class="badge b4">4조</span></td><td>박윤희, 최순자</td><td class="text-center">2명</td></tr>
+        </tbody>
+      </table>
+      <div class="note">* 전체 단톡방에 활동 시작/종료 등 조별 인증샷 일 2회 이상 업로드</div>
+    </div>
+
+    <div class="section-title"><span class="section-dot"></span> 출퇴근 인사 장소</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>조원</th><th>장소</th></tr></thead>
+        <tbody>
+          <tr><td><div class="team-inline"><span class="badge b1">1조</span><span>최윤정, 김미화</span></div></td><td>철산역 2번 출구 앞</td></tr>
+          <tr><td><div class="team-inline"><span class="badge b2">2조</span><span>허순이, 강희자</span></div></td><td>광명사거리역 4, 5번 출구 앞 각 1명</td></tr>
+          <tr><td><div class="team-inline"><span class="badge b3">3조</span><span>박옥주, 송태란</span></div></td><td>경륜장 앞</td></tr>
+          <tr><td><div class="team-inline"><span class="badge b4">4조</span><span>최순자</span></div></td><td>광명사거리역 3번 출구 앞</td></tr>
+          <tr><td><div class="team-inline"><span class="badge b4">4조</span><span>박윤희</span></div></td><td>SKT대리점(지금커피 맞은편) &amp; 미인헤어앞</td></tr>
+        </tbody>
+      </table>
+      <div class="note">* 출퇴근 주민진출 방향에 따라 인사방향 전환 필수</div>
+    </div>
+
+    <div class="section-title"><span class="section-dot"></span> 도보 순회 지역</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>조원</th><th>담당 지역</th><th>배치</th></tr></thead>
+        <tbody>
+          <tr><td><div class="team-inline"><span class="badge b1">1조</span><span>최윤정, 김미화</span></div></td><td>철산4동, 광명4동</td><td class="text-center">2명</td></tr>
+          <tr><td><div class="team-inline"><span class="badge b2">2조</span><span>허순이, 강희자</span></div></td><td>광명7동</td><td class="text-center">2명</td></tr>
+          <tr><td><div class="team-inline"><span class="badge b3">3조</span><span>박옥주, 송태란</span></div></td><td>광명6동</td><td class="text-center">2명</td></tr>
+          <tr><td><div class="team-inline"><span class="badge b4">4조</span><span>박윤희, 최순자</span></div></td><td>광명5동</td><td class="text-center">2명</td></tr>
+        </tbody>
+      </table>
+      <div class="note">* 마주치는 사람들에게 인사 꼭 잘해주세요</div>
+    </div>
+
+    <div class="section-title"><span class="section-dot"></span> 사무원 연락처</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>이름</th><th>연락처</th><th></th></tr></thead>
+        <tbody>
+          <tr><td class="text-center"><span class="badge b1" style="font-size:11px;padding:2px 7px;margin-right:5px">1조</span>최윤정</td><td class="text-center">010-8295-6851</td><td class="text-center"><a class="tel-btn" href="tel:01082956851">📞 전화하기</a></td></tr>
+          <tr><td class="text-center"><span class="badge b1" style="font-size:11px;padding:2px 7px;margin-right:5px">1조</span>김미화</td><td class="text-center">010-9025-5083</td><td class="text-center"><a class="tel-btn" href="tel:01090255083">📞 전화하기</a></td></tr>
+          <tr><td class="text-center"><span class="badge b2" style="font-size:11px;padding:2px 7px;margin-right:5px">2조</span>허순이</td><td class="text-center">010-9975-3172</td><td class="text-center"><a class="tel-btn" href="tel:01099753172">📞 전화하기</a></td></tr>
+          <tr><td class="text-center"><span class="badge b2" style="font-size:11px;padding:2px 7px;margin-right:5px">2조</span>강희자</td><td class="text-center">010-3326-7698</td><td class="text-center"><a class="tel-btn" href="tel:01033267698">📞 전화하기</a></td></tr>
+          <tr><td class="text-center"><span class="badge b3" style="font-size:11px;padding:2px 7px;margin-right:5px">3조</span>박옥주</td><td class="text-center">010-6329-3721</td><td class="text-center"><a class="tel-btn" href="tel:01063293721">📞 전화하기</a></td></tr>
+          <tr><td class="text-center"><span class="badge b3" style="font-size:11px;padding:2px 7px;margin-right:5px">3조</span>송태란</td><td class="text-center">010-8030-8199</td><td class="text-center"><a class="tel-btn" href="tel:01080308199">📞 전화하기</a></td></tr>
+          <tr><td class="text-center"><span class="badge b4" style="font-size:11px;padding:2px 7px;margin-right:5px">4조</span>박윤희</td><td class="text-center">010-8769-1493</td><td class="text-center"><a class="tel-btn" href="tel:01087691493">📞 전화하기</a></td></tr>
+          <tr><td class="text-center"><span class="badge b4" style="font-size:11px;padding:2px 7px;margin-right:5px">4조</span>최순자</td><td class="text-center">010-8271-5301</td><td class="text-center"><a class="tel-btn" href="tel:01082715301">📞 전화하기</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title"><span class="section-dot"></span> 관련 파일</div>
+    <div class="file-list">
+      <div class="file-card">
+        <div class="file-card-info">
+          <div class="file-icon">📄</div>
+          <div class="file-meta">
+            <div class="file-name">유세일정</div>
+            <div class="file-desc">시의원_선거사무원_선거운동_유세일정.xlsx</div>
+          </div>
+        </div>
+        <a class="file-dl-btn" href="시의원_선거사무원_선거운동_유세일정.xlsx" download>↓ 다운로드</a>
+      </div>
+      <div class="file-card">
+        <div class="file-card-info">
+          <div class="file-icon">📄</div>
+          <div class="file-meta">
+            <div class="file-name">운동원 명단</div>
+            <div class="file-desc">2026지선_운동원_명단_예정.xlsx</div>
+            <span class="file-pw">🔒 비밀번호: 0603</span>
+          </div>
+        </div>
+        <a class="file-dl-btn" href="2026지선_운동원_명단_예정___pw0603.xlsx" download>↓ 다운로드</a>
+      </div>
+    </div>
+    <p class="file-note">* 파일 추가 필요 시 조효정에게 요청</p>
+
+  </div>
+
+  <!-- 탭2: 인증샷 체크 -->
+  <div id="tab-check" class="tab-panel">
+    <div id="stat-row" class="stat-row"></div>
+    <div class="check-card">
+      <div class="check-card-inner">
+        <table class="ck-table" id="ckTable"></table>
+      </div>
+      <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+      <p class="prog-text" id="progText"></p>
+    </div>
+    <p class="fb-status" id="checkStatus"></p>
+  </div>
+
+  <!-- 탭3: 일지 -->
+  <div id="tab-diary" class="tab-panel">
+    <div class="diary-list" id="diaryList"></div>
+    <p class="fb-status" id="diaryStatus"></p>
+  </div>
+
+  <!-- 탭4: 할일 -->
+  <div id="tab-todo" class="tab-panel">
+    <div class="todo-add-row">
+      <input class="todo-add-input" type="text" id="todoInput" placeholder="할일을 입력하세요">
+      <button class="todo-add-btn" onclick="addTodo()">+ 추가</button>
+    </div>
+    <div class="todo-list" id="todoList"></div>
+    <p class="fb-status" id="todoStatus"></p>
+  </div>
+
+</div>
+
+<!-- 탭 전환: module 밖에 선언해야 onclick에서 접근 가능 -->
+<script>
+  const TAB_IDS = ['info', 'check', 'diary', 'todo'];
+
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    if (btn) btn.classList.add('active');
+    location.hash = id;
+  }
+
+  function addTodo() {
+    const inp = document.getElementById('todoInput');
+    const text = inp.value.trim();
+    if (!text) return;
+    const now = new Date();
+    const dateStr = (now.getMonth()+1) + '/' + now.getDate();
+    if (window._addTodoFn) { window._addTodoFn(text, dateStr); inp.value = ''; }
+  }
+  window.toggleTodo = function(i) { if (window._toggleTodoFn) window._toggleTodoFn(i); };
+  window.deleteTodo = function(i) { if (window._deleteTodoFn) window._deleteTodoFn(i); };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // 해시 기반 탭 복원
+    const hash = location.hash.replace('#', '');
+    const initId = TAB_IDS.includes(hash) ? hash : 'info';
+    const initBtn = document.querySelector(`.tab-btn[onclick*="'${initId}'"]`);
+    switchTab(initId, initBtn);
+
+    const inp = document.getElementById('todoInput');
+    if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') addTodo(); });
+  });
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBT46sSOnQG_MWF2Zf_fYpe84T0RXUfNQo",
+    authDomain: "election-dashboard-b49db.firebaseapp.com",
+    projectId: "election-dashboard-b49db",
+    storageBucket: "election-dashboard-b49db.firebasestorage.app",
+    messagingSenderId: "120612051995",
+    appId: "1:120612051995:web:a485fec35a1ff2a0f72cbe"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const TEAMS = [
+    { id:'t1', label:'1조', names:'최윤정·김미화', cls:'b1' },
+    { id:'t2', label:'2조', names:'허순이·강희자', cls:'b2' },
+    { id:'t3', label:'3조', names:'박옥주·송태란', cls:'b3' },
+    { id:'t4', label:'4조', names:'박윤희·최순자', cls:'b4' },
+  ];
+  const SLOTS = ['오전', '오후'];
+
+  function getDates() {
+    const out = [];
+    const start = new Date(2026, 4, 21);
+    for (let i = 0; i < 13; i++) {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      const dow = ['일','월','화','수','목','금','토'][d.getDay()];
+      out.push({
+        key: `${d.getMonth()+1}_${d.getDate()}`,
+        label: `${d.getMonth()+1}/${d.getDate()}(${dow})`,
+        isSun: d.getDay() === 0
+      });
+    }
+    return out;
+  }
+  const dates = getDates();
+
+  function setStatus(id, msg, type) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = msg;
+    el.className = 'fb-status' + (type ? ' ' + type : '');
+  }
+
+  /* ── 인증샷 체크 ── */
+  let checkData = {};
+
+  async function loadCheck() {
+    try {
+      const snap = await getDoc(doc(db, 'election', 'checks'));
+      if (snap.exists()) checkData = snap.data();
+      setStatus('checkStatus', '✓ Firebase 연결됨', 'ok');
+    } catch(e) {
+      setStatus('checkStatus', '⚠ Firebase 연결 실패', 'err');
+    }
+    buildCheck();
+    updateProgress();
+  }
+
+  async function saveCheck() {
+    try {
+      await setDoc(doc(db, 'election', 'checks'), checkData);
+      setStatus('checkStatus', '✓ 저장됨 ' + new Date().toLocaleTimeString(), 'ok');
+    } catch(e) {
+      setStatus('checkStatus', '⚠ 저장 실패', 'err');
+    }
+  }
+
+  function ck(dk, tid, slot) { return `${dk}|${tid}|${slot}`; }
+
+  function buildCheck() {
+    const t = document.getElementById('ckTable');
+    let h = '<thead><tr>';
+    h += '<th style="min-width:76px">날짜</th>';
+    h += '<th style="min-width:150px; text-align:center">조원</th>';
+    SLOTS.forEach(s => h += `<th style="min-width:52px">${s}</th>`);
+    h += '</tr></thead><tbody>';
+    dates.forEach(d => {
+      TEAMS.forEach((tm, ti) => {
+        h += '<tr>';
+        if (ti === 0) {
+          h += `<td class="date-cell${d.isSun?' sun':''}" rowspan="${TEAMS.length}">${d.label}</td>`;
+        }
+        h += `<td class="team-cell"><div class="team-inner"><span class="badge ${tm.cls}">${tm.label}</span><span class="team-names">${tm.names}</span></div></td>`;
+        SLOTS.forEach(s => {
+          const k = ck(d.key, tm.id, s);
+          h += `<td><input type="checkbox" data-key="${k}" ${checkData[k]?'checked':''} aria-label="${d.label} ${tm.label} ${s}"></td>`;
+        });
+        h += '</tr>';
+      });
+    });
+    h += '</tbody>';
+    t.innerHTML = h;
+    t.querySelectorAll('input[type=checkbox]').forEach(cb => {
+      cb.addEventListener('change', function() {
+        checkData[this.dataset.key] = this.checked;
+        updateProgress();
+        saveCheck();
+      });
+    });
+  }
+
+  function updateProgress() {
+    const total = dates.length * TEAMS.length * SLOTS.length;
+    const done = Object.values(checkData).filter(Boolean).length;
+    const pct = Math.round(done / total * 100);
+    document.getElementById('progBar').style.width = pct + '%';
+    document.getElementById('progText').textContent = `${done} / ${total} 완료 (${pct}%)`;
+    const fullDays = dates.filter(d =>
+      TEAMS.every(tm => SLOTS.every(s => checkData[ck(d.key, tm.id, s)]))
+    ).length;
+    document.getElementById('stat-row').innerHTML =
+      `<div class="stat-card"><div class="num">${fullDays}</div><div class="lbl">완료 일자</div></div>` +
+      `<div class="stat-card"><div class="num">${13-fullDays}</div><div class="lbl">남은 일자</div></div>` +
+      `<div class="stat-card"><div class="num">${done}</div><div class="lbl">체크 완료</div></div>` +
+      `<div class="stat-card"><div class="num">${pct}%</div><div class="lbl">진행률</div></div>`;
+  }
+
+  /* ── 일지 ── */
+  let diaryData = {};
+
+  async function loadDiary() {
+    try {
+      const snap = await getDoc(doc(db, 'election', 'diary'));
+      if (snap.exists()) diaryData = snap.data();
+      setStatus('diaryStatus', '✓ Firebase 연결됨', 'ok');
+    } catch(e) {
+      setStatus('diaryStatus', '⚠ Firebase 연결 실패', 'err');
+    }
+    buildDiary();
+  }
+
+  async function saveDiaryEntry(key) {
+    const val = document.getElementById('ta-' + key).value;
+    diaryData[key] = val;
+    try {
+      await setDoc(doc(db, 'election', 'diary'), diaryData);
+      const msg = document.getElementById('msg-' + key);
+      msg.classList.add('show');
+      setTimeout(() => msg.classList.remove('show'), 1800);
+      setStatus('diaryStatus', '✓ 저장됨 ' + new Date().toLocaleTimeString(), 'ok');
+    } catch(e) {
+      setStatus('diaryStatus', '⚠ 저장 실패', 'err');
+    }
+  }
+  window.saveDiaryEntry = saveDiaryEntry;
+
+  const LINE_PX = Math.round(12 * 1.7);
+  const PAD_PX = 18;
+  function autoResize(ta) {
+    // scrollHeight 대신 텍스트 줄 수로 직접 계산
+    const lines = Math.max((ta.value.match(/\n/g) || []).length + 1, 2);
+    ta.style.height = (lines * LINE_PX + PAD_PX) + 'px';
+  }
+
+  function buildDiary() {
+    const list = document.getElementById('diaryList');
+    let html = '';
+    dates.forEach(d => {
+      const val = (diaryData[d.key] || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      html += `
+      <div class="diary-item">
+        <div class="diary-header">
+          <span class="diary-date-label${d.isSun?' sun':''}">${d.label}</span>
+        </div>
+        <textarea class="diary-textarea" id="ta-${d.key}">${val}</textarea>
+        <div class="diary-footer">
+          <span class="diary-saved-msg" id="msg-${d.key}">저장됐어요 ✓</span>
+          <button class="diary-save-btn" onclick="saveDiaryEntry('${d.key}')">저장</button>
+        </div>
+      </div>`;
+    });
+    list.innerHTML = html;
+    list.querySelectorAll('.diary-textarea').forEach(ta => {
+      autoResize(ta);
+      ta.addEventListener('input', () => autoResize(ta));
+    });
+  }
+
+  loadCheck();
+  loadDiary();
+
+  /* ── 할일 ── */
+  let todoData = [];
+
+  async function loadTodo() {
+    try {
+      const snap = await getDoc(doc(db, 'election', 'todo'));
+      if (snap.exists() && snap.data().items) todoData = snap.data().items;
+      setStatus('todoStatus', '✓ Firebase 연결됨', 'ok');
+    } catch(e) {
+      setStatus('todoStatus', '⚠ Firebase 연결 실패', 'err');
+    }
+    renderTodo();
+  }
+
+  async function saveTodo() {
+    try {
+      await setDoc(doc(db, 'election', 'todo'), { items: todoData });
+      setStatus('todoStatus', '✓ 저장됨 ' + new Date().toLocaleTimeString(), 'ok');
+    } catch(e) {
+      setStatus('todoStatus', '⚠ 저장 실패', 'err');
+    }
+  }
+
+  function renderTodo() {
+    const list = document.getElementById('todoList');
+    if (!list) return;
+    if (!todoData.length) {
+      list.innerHTML = '<div class="todo-empty">등록된 할일이 없어요</div>';
+      return;
+    }
+    list.innerHTML = todoData.map((t, i) => `
+      <div class="todo-item${t.done?' done':''}">
+        <span class="todo-date">${t.date}</span>
+        <input class="todo-cb" type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${i})">
+        <span class="todo-text">${t.text}</span>
+        <button class="todo-del" onclick="deleteTodo(${i})">✕</button>
+      </div>
+    `).join('');
+  }
+
+  window._addTodoFn = function(text, dateStr) {
+    todoData.push({ text, date: dateStr, done: false });
+    saveTodo();
+    renderTodo();
+  };
+
+  window._toggleTodoFn = function(i) {
+    todoData[i].done = !todoData[i].done;
+    saveTodo();
+    renderTodo();
+  };
+
+  window._deleteTodoFn = function(i) {
+    todoData.splice(i, 1);
+    saveTodo();
+    renderTodo();
+  };
+
+  loadTodo();
+</script>
+</body>
+</html>
